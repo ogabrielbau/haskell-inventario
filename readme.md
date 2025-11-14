@@ -32,7 +32,7 @@ Este trabalho implementa um **sistema de gerenciamento de inventário** em Haske
 
 ---
 
-#2. Descrição Geral
+# 2. Descrição Geral
 
 O sistema permite:
 
@@ -69,7 +69,7 @@ O sistema define:
 
 Todos derivam `Show` e `Read`, como exigido, possibilitando serialização e desserialização.
 
-5. Lógica de Negócio (Funções Puras)
+# 5. Lógica de Negócio (Funções Puras)
 
 As funções puras do sistema são:
 
@@ -96,7 +96,7 @@ Nenhuma função pura realiza IO, cumprindo totalmente a exigência de separaç�
 
 ---
 
-6. Módulo de IO e Loop Principal
+# 6. Módulo de IO e Loop Principal
 
 A função `main` realiza:
 
@@ -116,7 +116,7 @@ exit
 O sistema nunca mistura IO com lógica pura — tudo está no `mainLoop`.
 
 ---
-7. Exemplos de Uso
+# 7. Exemplos de Uso
 
 ### ➕ Adicionar item
 
@@ -150,7 +150,7 @@ exit
 
 ---
 
- 8. Cenários de Teste (Obrigatórios – RA2 seção 4.1)
+ # 8. Cenários de Teste (Obrigatórios – RA2 seção 4.1)
 
 A seguir estão os testes realizados conforme especificação.
 
@@ -229,13 +229,13 @@ report
 
 ---
 
-9. Dados Mínimos
+# 9. Dados Mínimos
 
 O inventário inclui **mais de 10 itens distintos**, conforme exigido no enunciado, adicionados durante os testes realizados.
 
 ---
 
-10. Organização do Repositório
+# 10. Organização do Repositório
 
 - Commits claros  
 - Mensagens explicativas  
@@ -244,7 +244,7 @@ O inventário inclui **mais de 10 itens distintos**, conforme exigido no enuncia
 
 ---
 
-11. Conclusão
+# 11. Conclusão
 
 O sistema atende integralmente aos requisitos do RA2:
 
@@ -259,6 +259,7 @@ O sistema atende integralmente aos requisitos do RA2:
 ✔ README completo conforme especificado  
 
 ---
+
 
 
 
