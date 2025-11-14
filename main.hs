@@ -48,6 +48,7 @@ addItem time item inv
 
 removeItem :: UTCTime -> String -> Int -> Inventario -> Either String ResultadoOperacao
 removeItem time iid qtd inv
+  | null iid = Left "Erro: ID nao pode ser vazio"
   | not (Map.member iid inv) = Left $ "Erro: Item ID: " ++ iid ++ " nao encontrado"
   | qtd <= 0 = Left "Erro: Quantidade deve ser maior que zero"
   | qtdAtual < qtd = Left $ "Erro: Item ID: " ++ iid ++ " - Estoque insuficiente. Disponivel: " ++ show (quantidade itemAtual) ++ ", Solicitado: " ++ show qtd
@@ -62,6 +63,7 @@ removeItem time iid qtd inv
 
 updateQty :: UTCTime -> String -> Int -> Inventario -> Either String ResultadoOperacao
 updateQty time iid novaQtd inv
+  | null iid = Left "Erro: ID nao pode ser vazio"
   | not (Map.member iid inv) = Left $ "Erro: Item com ID '" ++ iid ++ "' nao encontrado"
   | novaQtd < 0 = Left "Erro: Quantidade nao pode ser negativa"
   | novaQtd == 0 = Right (Map.delete iid inv, criarLog "Estoque 0, item removido")
