@@ -10,10 +10,10 @@ Professor: **Frank Coelho de Alcantara**
 
 | Nome | GitHub |
 |------|--------|
-| Gabriel Baú | https://github.com/ogabrielbau |
 | Bernardo Czizyk | https://github.com/BBernardoC |
-| Mateus Filipe | https://github.com/MateusMonfort |
+| Gabriel Baú | https://github.com/ogabrielbau |
 | Gregory Keune | https://github.com/gregorykeune |
+| Mateus Filipe | https://github.com/MateusMonfort |
 ---
 
 ## Link para Execução Online
@@ -255,6 +255,7 @@ O sistema atende integralmente aos requisitos do RA2:
 ✔ README completo conforme especificado  
 
 ---
+
 
 
 
