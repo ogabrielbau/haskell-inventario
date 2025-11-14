@@ -49,10 +49,11 @@ O estado atual do inventário **persiste entre execuções**, pois é salvo em a
 ---
 
 # 3. Estrutura do Projeto
+```plaintext
 /
-├── Inventario.hs # Código fonte principal
-├── Inventario.dat # Estado persistido do inventário
-├── Auditoria.log # Log de auditoria append-only
+├── Inventario.hs        # Código fonte principal
+├── Inventario.dat       # Estado persistido do inventário
+├── Auditoria.log        # Log de auditoria append-only
 └── README.md
 
 # 4. Tipos de Dados
@@ -257,6 +258,7 @@ O sistema atende integralmente aos requisitos do RA2:
 ✔ README completo conforme especificado  
 
 ---
+
 
 
 
