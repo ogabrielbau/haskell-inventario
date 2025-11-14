@@ -76,3 +76,88 @@ updateQty time iid novaQtd inv
 
 queryFail :: UTCTime -> String -> AcaoLog -> LogEntry
 queryFail time msg acao = LogEntry time acao msg (Falha msg)
+-- Funcoes de Relatorio
+historicoPorItem :: String -> [LogEntry] -> [LogEntry]
+historicoPorItem iid = filter (isInfixOf ("ID: " ++ iid) . detalhes)
+
+logsDeErro :: [LogEntry] -> [LogEntry]
+logsDeErro = filter (\e -> case status e of Falha _ -> True; _ -> False)
+
+extrairID :: String -> Maybe String
+extrairID s = case dropWhile (/= "ID:") (words s) of
+  ("ID:" : idVal : _) -> Just (filter (\c -> c /= ',' && c /= '.') idVal)
+  _ -> Nothing
+
+formatarLog :: LogEntry -> String
+formatarLog e = show (timestamp e) ++ " | " ++ show (acao e) ++ " | " ++ detalhes e
+
+formatarItem :: Item -> String
+formatarItem i = "ID: " ++ itemID i ++ " | Nome: " ++ nome i ++ 
+                 " | Qtd: " ++ show (quantidade i) ++ " | Categoria: " ++ categoria i
+
+-- Calcula o item com mais operacoes (movimentacoes), tratando empates
+itemMaisMovimentado :: [LogEntry] -> Maybe [(String, Int)]
+itemMaisMovimentado logs =
+  case logsComID of
+    [] -> Nothing
+    _ -> let maxCount = maximum (Map.elems contadores)
+             empatados = filter (\(_, count) -> count == maxCount) (Map.toList contadores)
+         in Just empatados
+  where
+    logsComID = [(iid, e) | e <- logs, Just iid <- [extrairID (detalhes e)]]
+    contadores = foldl' (\m (iid, _) -> Map.insertWith (+) iid 1 m) Map.empty logsComID
+
+-- Obtem todos os IDs unicos dos logs
+todosIDs :: [LogEntry] -> [String]
+todosIDs logs = Map.keys $ Map.fromList [(iid, ()) | e <- logs, Just iid <- [extrairID (detalhes e)]]
+
+-- Relatorio completo: erros, item mais movimentado e historico de todos os itens
+gerarRelatorio :: [LogEntry] -> String
+gerarRelatorio logs
+  | null logs = "Nenhuma operacao registrada"
+  | otherwise = unlines $ concat [
+      [ "=== RELATORIO COMPLETO DO INVENTARIO ==="
+      , "Total de operacoes: " ++ show (length logs)
+      , ""
+      ]
+    , secaoErros
+    , [ "" ]
+    , secaoItemMaisMovimentado
+    , [ ""
+      , "=== HISTORICO POR ITEM ==="
+      , ""
+      ]
+    , historicoPorTodosItens
+    ]
+  where
+    erros = logsDeErro logs
+    secaoErros = if null erros
+      then ["=== LOGS DE ERRO ===", "Nenhum erro registrado"]
+      else [ "=== LOGS DE ERRO ==="
+           , "Total de erros: " ++ show (length erros)
+           , ""
+           ] ++ map formatarLog erros
+
+    secaoItemMaisMovimentado = case itemMaisMovimentado logs of
+      Nothing -> ["=== ITEM MAIS MOVIMENTADO ===", "Nenhum item encontrado"]
+      Just [] -> ["=== ITEM MAIS MOVIMENTADO ===", "Nenhum item encontrado"]
+      Just [(iid, count)] -> 
+        [ "=== ITEM MAIS MOVIMENTADO ==="
+        , "ID: " ++ iid
+        , "Total de movimentacoes: " ++ show count
+        ]
+      Just itens -> 
+        [ "=== ITENS MAIS MOVIMENTADOS (EMPATE) ===" ]
+        ++ map (\(iid, count) -> "ID: " ++ iid ++ " - " ++ show count ++ " movimentacoes") itens
+
+    ids = todosIDs logs
+    historicoPorTodosItens = if null ids
+      then ["Nenhum item registrado"]
+      else concatMap gerarSecaoItem ids
+
+    gerarSecaoItem iid =
+      let historico = historicoPorItem iid logs
+      in [ "--- Item ID: " ++ iid ++ " ---"
+         , "Total de operacoes: " ++ show (length historico)
+         , ""
+         ] ++ map formatarLog historico ++ [""]
