@@ -37,6 +37,8 @@ O sistema implementa um gerenciador de inventário utilizando princípios de pro
 └── README.md
 ```
 
+---
+
 ### 3. Tipos de Dados Conforme Especificação
 
 O sistema define os seguintes tipos:
@@ -49,7 +51,33 @@ O sistema define os seguintes tipos:
 
 Todos derivam `Show` e `Read`, permitindo serialização e desserialização automática para os arquivos de persistência.
 
+---
 
+### 4. Funções de Lógica Pura Implementadas
+
+#### Operações principais
+
+- `addItem` – adiciona item ao inventário  
+- `removeItem` – remove quantidade ou exclui item  
+- `updateItem` – atualiza quantidade do item  
+- `validaQuantidade` – valida quantidade positiva  
+
+#### Funções de análise e relatório
+
+- `historicoPorItem` – histórico por ID  
+- `logsDeErro` – filtra somente falhas  
+- `itemMaisMovimentado` – identifica itens mais movimentados  
+- `gerarRelatorio` – gera relatório completo  
+
+As funções seguem a assinatura:
+
+Either String ResultadoOperacao
+
+onde:
+
+type ResultadoOperacao = (Inventario, LogEntry)
+
+---
 
 
 
