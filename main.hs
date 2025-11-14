@@ -80,8 +80,8 @@ queryFail :: UTCTime -> String -> AcaoLog -> LogEntry
 queryFail time msg acao = LogEntry time acao msg (Falha msg)
 -- Funcoes de Relatorio
 historicoPorItem :: String -> [LogEntry] -> [LogEntry]
-historicoPorItem iid = filter (isInfixOf ("ID: " ++ iid) . detalhes)
-
+historicoPorItem iid = filter (isInfixOf ("ID: " ++ iid) . detalhes)  
+      
 logsDeErro :: [LogEntry] -> [LogEntry]
 logsDeErro = filter (\e -> case status e of Falha _ -> True; _ -> False)
 
@@ -153,17 +153,22 @@ gerarRelatorio logs
         ++ map (\(iid, count) -> "ID: " ++ iid ++ " - " ++ show count ++ " movimentacoes") itens
 
     ids = todosIDs logs
-    historicoPorTodosItens = if null ids
-      then ["Nenhum item registrado"]
-      else concatMap gerarSecaoItem ids
+    idsComSucesso = filter temPeloMenosUmSucesso ids
+    
+    temPeloMenosUmSucesso iid = 
+      any (\e -> case status e of Sucesso -> True; _ -> False) 
+          (filter (isInfixOf ("ID: " ++ iid) . detalhes) logs)
+    
+    historicoPorTodosItens = if null idsComSucesso
+      then ["Nenhum item com operacoes bem-sucedidas"]
+      else concatMap gerarSecaoItem idsComSucesso
 
     gerarSecaoItem iid =
       let historico = historicoPorItem iid logs
       in [ "--- Item ID: " ++ iid ++ " ---"
          , "Total de operacoes: " ++ show (length historico)
          , ""
-         ] ++ map formatarLog historico ++ [""]
-
+         ] ++ map formatarLog historico ++ [""]
 -- Persistencia
 salvarInventario :: Inventario -> IO ()
 carregarInventario :: IO Inventario
