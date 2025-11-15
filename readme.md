@@ -288,13 +288,12 @@ Os três itens devem aparecer corretamente após a reinicialização, comprovand
 
 Evidencias:
 
-<img src="teste1.1.jpg" width="300">
+<img src="images/im1.jpg" width="900">
 
 
-<img src="teste1.2.jpg" width="300">
+<img src="images/im2.jpg" width="900">
 
 
-<img src="teste1.3.jpg" width="300">
 
 ---
 
@@ -325,11 +324,11 @@ list
 
 Evidencias:
 
-<img src="teste2.1.jpg" width="900">
+<img src="images/im5.jpg" width="900">
 
+**Log:**
 
-<img src="teste2.2.jpg" width="900">
-
+``` LogEntry {timestamp = 2025-11-15 02:07:47.433238331 UTC, acao = Remove, detalhes = "Erro: Item ID: 003 - Estoque insuficiente. Disponivel: 12, Solicitado: 15", status = Falha "Erro: Item ID: 003 - Estoque insuficiente. Disponivel: 12, Solicitado: 15"} ```
 ---
 
 #### 🧪 Cenário 3 — Geração do Relatório
@@ -358,11 +357,9 @@ Confirmando assim que:
 - `historicoPorItem` lista todas as operações relevantes  
 - `gerarRelatorio` consolida tudo no formato esperado
 
-Evidencia:
-
 Evidencias:
 
-<img src="teste3.jpg" width="900">
+<img src="images/im4.jpg" width="900">
 
 ---
 
@@ -384,6 +381,7 @@ Para executar o sistema diretamente no navegador:
     exit
     
 O sistema funcionará exatamente como em um ambiente local, incluindo persistência e geração de logs.
+
 
 
 
