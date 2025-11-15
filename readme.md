@@ -95,7 +95,7 @@ Remove quantidade do item. Remove completamente caso a quantidade chegue a zero.
 **updateQty**  
 Atualiza a quantidade do item. Se a nova quantidade for igual a 0, o item é removido.
 
-**QueryFail** 
+**queryFail** 
 Caso o usuário realize um comando invalido, QueryFail salva nos logs a mensagem de erro.
 ---
 
@@ -118,17 +118,6 @@ Gera o relatório completo exigido no enunciado, contendo:
 - Histórico por item
 
 ---
-
-#### Forma Canônica Exigida
-
-As funções seguem a assinatura funcional:
-
-Either String ResultadoOperacao
-
-
-Onde:
-
-type ResultadoOperacao = (Inventario, LogEntry)
 
 # 4. Sistema de Persistência
 
@@ -226,13 +215,6 @@ Todos os tipos necessários implementam:
 ```haskell
 deriving (Show, Read)
 ```
-Isso permite:
-
-    Serialização automática em arquivos
-
-    Desserialização segura
-
-    Persistência correta do sistema
 
 ---
 
@@ -381,6 +363,7 @@ Para executar o sistema diretamente no navegador:
     exit
     
 O sistema funcionará exatamente como em um ambiente local, incluindo persistência e geração de logs.
+
 
 
 
