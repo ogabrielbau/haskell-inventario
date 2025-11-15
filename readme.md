@@ -95,6 +95,8 @@ Remove quantidade do item. Remove completamente caso a quantidade chegue a zero.
 **updateQty**  
 Atualiza a quantidade do item. Se a nova quantidade for igual a 0, o item é removido.
 
+**QueryFail** 
+Caso o usuário realize um comando invalido, QueryFail salva nos logs a mensagem de erro.
 ---
 
 #### Funções de Análise e Relatório
@@ -182,16 +184,6 @@ Isso garante que, se os arquivos não existirem, o sistema inicia com um invent�
 | **report** | `report` | Gera o relatório completo do sistema |
 | **exit** | `exit` | Encerra o sistema |
 
-
----
-
-
-# 6. Comportamento Especial
-
-- Quando a quantidade chega a **zero** em `updateQty` ou `removeItem`, o item é automaticamente removido do inventário.  
-- Toda operação — **sucesso ou falha** — gera uma `LogEntry`.  
-- Itens sem nenhuma operação bem-sucedida **não aparecem no relatório final**, conforme definido no sistema.
-
 ---
 
 ### Evidências de Conformidade com a Rubrica
@@ -244,34 +236,28 @@ Isso permite:
 
 ---
 
-# 7. Dados Mínimos para Teste
+# 6. Dados Mínimos para Teste
 
 Para garantir o funcionamento correto das funções de relatório, auditoria e persistência, foram adicionados **pelo menos 10 itens distintos** ao inventário, conforme solicitado na especificação da atividade RA2.
 
 #### Exemplo de inserções mínimas:
 
-    add,001,Teclado,15,Informatica
-    add,002,Mouse,20,Informatica
-    add,003,Monitor,8,Informatica
-    add,004,Notebook,5,Eletronicos
-    add,005,Impressora,3,Escritorio
-    add,006,Cadeira,12,Movel
-    add,007,Mesa,6,Movel
-    add,008,Tablet,10,Eletronicos
-    add,009,Smartphone,25,Eletronicos
-    add,010,Fone,30,Acessorios
-
-Esses dados foram utilizados para validar:
-
-- Persistência entre execuções  
-- Geração do relatório completo  
-- Funcionamento do cálculo de item mais movimentado  
-- Registros de auditoria  
-- Tratamento de erros e entradas inválidas  
+```
+    add,001,Livro,7,Educação
+    add,002,Caneta,45,Escritorio
+    add,003,Caixa de Som,12,Audio
+    add,004,Projetor,3,Eletronicos
+    add,005,Calculadora,9,Escola
+    add,006,Luminaria,14,Decoracao
+    add,007,Armario,4,Movel
+    add,008,Camera,6,Fotografia
+    add,009,Roteador,18,Informatica
+    add,010,Carregador,22,Acessorios
+```
 
 ---
 
-# 8. Documentação dos Cenários de Teste
+# 7. Documentação dos Cenários de Teste
 
 ---
 
@@ -318,12 +304,12 @@ Evidencias:
 
 1. Adicionar um item:
 
-add,014,Teclado,10,Informatica
+add,003,caixa de som,12,audio
 
 
 2. Tentar remover uma quantidade maior do que a disponível:
 
-remove,014,15
+remove,003,15
 
 
 3. Em seguida, listar o inventário:
@@ -339,10 +325,10 @@ list
 
 Evidencias:
 
-<img src="teste2.1.jpg" width="300">
+<img src="teste2.1.jpg" width="900">
 
 
-<img src="teste2.2.jpg" width="300">
+<img src="teste2.2.jpg" width="900">
 
 ---
 
@@ -376,11 +362,11 @@ Evidencia:
 
 Evidencias:
 
-<img src="teste3.jpg" width="300">
+<img src="teste3.jpg" width="900">
 
 ---
 
-# 9. Instruções de Execução
+# 8. Instruções de Execução
 
 #### Online GDB
 
@@ -399,21 +385,6 @@ Para executar o sistema diretamente no navegador:
     
 O sistema funcionará exatamente como em um ambiente local, incluindo persistência e geração de logs.
 
----
-
-# 10. Conclusão
-
-O sistema atende **integralmente** aos requisitos da Atividade Avaliativa RA2, demonstrando:
-
-- Domínio dos conceitos de **programação funcional em Haskell**  
-- **Separação correta** entre lógica pura e operações de I/O  
-- **Persistência robusta** com arquivos `.dat` e `.log`  
-- **Auditoria completa**, incluindo falhas e sucessos  
-- **Tratamento adequado de erros** e entradas inválidas  
-- **Geração completa de relatórios** conforme especificado  
-- Conformidade total com as instruções fornecidas pelo professor  
-
-O projeto está coerente, funcional, modular e pronto para avaliação.
 
 
 
