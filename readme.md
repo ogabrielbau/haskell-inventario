@@ -23,7 +23,7 @@ GDB Online: https://onlinegdb.com/VWnmMKrUlA
 
 # Especificação Técnica do Sistema
 
-## 1. Arquitetura do Sistema
+# 1. Arquitetura do Sistema
 
 O sistema implementa um **gerenciador de inventário funcional em Haskell**, seguindo rigorosamente:
 
@@ -82,7 +82,7 @@ type ResultadoOperacao = (Inventario, LogEntry)
 
 ---
 
-### 3. Funções de Lógica Pura Implementadas
+# 3. Funções de Lógica Pura Implementadas
 
 #### Operações Principais (puras)
 
@@ -128,7 +128,7 @@ Onde:
 
 type ResultadoOperacao = (Inventario, LogEntry)
 
-### 4. Sistema de Persistência
+# 4. Sistema de Persistência
 
 #### Arquivos do Sistema
 
@@ -171,7 +171,7 @@ Isso garante que, se os arquivos não existirem, o sistema inicia com um invent�
 ---
 
 
-### 5. Comandos do Sistema
+# 5. Comandos do Sistema
 
 | Comando | Sintaxe | Descrição |
 |---------|---------|-----------|
@@ -186,7 +186,7 @@ Isso garante que, se os arquivos não existirem, o sistema inicia com um invent�
 ---
 
 
-### 6. Comportamento Especial
+# 6. Comportamento Especial
 
 - Quando a quantidade chega a **zero** em `updateQty` ou `removeItem`, o item é automaticamente removido do inventário.  
 - Toda operação — **sucesso ou falha** — gera uma `LogEntry`.  
@@ -244,7 +244,7 @@ Isso permite:
 
 ---
 
-### 7. Dados Mínimos para Teste
+# 7. Dados Mínimos para Teste
 
 Para garantir o funcionamento correto das funções de relatório, auditoria e persistência, foram adicionados **pelo menos 10 itens distintos** ao inventário, conforme solicitado na especificação da atividade RA2.
 
@@ -268,6 +268,7 @@ Esses dados foram utilizados para validar:
 - Funcionamento do cálculo de item mais movimentado  
 - Registros de auditoria  
 - Tratamento de erros e entradas inválidas  
+
 
 
 
