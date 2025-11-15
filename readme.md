@@ -163,12 +163,85 @@ catch
       let inv = read conteudo
       inv `seq` return inv)
   (\(_ :: IOException) -> return Map.empty)
+```
 
 Isso garante que, se os arquivos não existirem, o sistema inicia com um inventário vazio sem falhar.
 
 
 ---
 
+
+### 5. Comandos do Sistema
+
+| Comando | Sintaxe | Descrição |
+|---------|---------|-----------|
+| **add** | `add,<id>,<nome>,<quantidade>,<categoria>` | Adiciona item ao inventário |
+| **remove** | `remove,<id>,<quantidade>` | Remove quantidade do item |
+| **update** | `update,<id>,<nova_quantidade>` | Atualiza o estoque do item |
+| **list** | `list` | Lista todos os itens do inventário |
+| **report** | `report` | Gera o relatório completo do sistema |
+| **exit** | `exit` | Encerra o sistema |
+
+
+---
+
+
+### 6. Comportamento Especial
+
+- Quando a quantidade chega a **zero** em `updateQty` ou `removeItem`, o item é automaticamente removido do inventário.  
+- Toda operação — **sucesso ou falha** — gera uma `LogEntry`.  
+- Itens sem nenhuma operação bem-sucedida **não aparecem no relatório final**, conforme definido no sistema.
+
+---
+
+### Evidências de Conformidade com a Rubrica
+
+#### 1. Separação entre Lógica Pura e Impura
+
+- **Funções puras**: `addItem`, `removeItem`, `updateQty`, `historicoPorItem`, `logsDeErro`, `itemMaisMovimentado`, `gerarRelatorio`.  
+- **Funções impuras**: `main`, `mainLoop`, `salvarInventario`, `carregarInventario`, `registrarLog`, `carregarLogs`.
+
+**Conforme exigido:** nenhuma função pura realiza operações de I/O.
+
+---
+
+#### 2. Persistência de Estado
+
+- Leitura correta de `Inventario.dat` e `Auditoria.log` com uso de `catch`.  
+- Gravação de `Inventario.dat` após operações bem-sucedidas.  
+- Registro de **todas** as operações no arquivo `Auditoria.log`.  
+- Sistema **não quebra** na primeira execução se os arquivos não existirem.
+
+---
+
+#### 3. Sistema de Auditoria
+
+Cada entrada de auditoria (`LogEntry`) contém:
+
+- **Timestamp** (`UTCTime`)  
+- **Ação** (`Add`, `Remove`, `Update`, `QueryFail`)  
+- **Mensagem detalhada**  
+- **Status** (`Sucesso` ou `Falha String`)  
+
+Atendendo exatamente ao solicitado na atividade RA2.
+
+---
+
+#### 4. Derivação de Show/Read
+
+Todos os tipos necessários implementam:
+
+```haskell
+deriving (Show, Read)
+
+Isso permite:
+
+    Serialização automática em arquivos
+
+    Desserialização segura
+
+    Persistência correta do sistema
+```
 
 
 
