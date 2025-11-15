@@ -95,9 +95,6 @@ Remove quantidade do item. Remove completamente caso a quantidade chegue a zero.
 **updateQty**  
 Atualiza a quantidade do item. Se a nova quantidade for igual a 0, o item é removido.
 
-**validaQuantidade**  
-Valida que as quantidades recebidas sejam positivas.
-
 ---
 
 #### Funções de Análise e Relatório
@@ -171,6 +168,7 @@ Isso garante que, se os arquivos não existirem, o sistema inicia com um invent�
 
 
 ---
+
 
 
 
