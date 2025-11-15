@@ -280,12 +280,9 @@ Esses dados foram utilizados para validar:
 **Procedimento:**
 
 1. Executar o sistema sem arquivos existentes.
-2. Inserir os seguintes itens:
+2. Inserir 3 itens:
 
-add,011,ItemA,10,CatA
-add,012,ItemB,5,CatB
-add,013,ItemC,8,CatC
-
+<img src="teste1.1.jpg" width="300">
 
 3. Encerrar o programa com:
 
@@ -397,5 +394,6 @@ O sistema atende **integralmente** aos requisitos da Atividade Avaliativa RA2, d
 - Conformidade total com as instruções fornecidas pelo professor  
 
 O projeto está coerente, funcional, modular e pronto para avaliação.
+
 
 
