@@ -21,63 +21,117 @@ GDB Online: https://onlinegdb.com/VWnmMKrUlA
 
 ## Especificação Técnica do Sistema
 
-### 1. Arquitetura Geral
+# Especificação Técnica do Sistema
 
-O sistema implementa um gerenciador de inventário utilizando princípios de programação funcional em Haskell, com **separação rigorosa entre lógica pura e operações de I/O**, persistência em arquivos e auditoria completa de operações.
+## 1. Arquitetura do Sistema
+
+O sistema implementa um **gerenciador de inventário funcional em Haskell**, seguindo rigorosamente:
+
+- Separação entre **lógica pura** (funções sem IO)
+- Lógica impura restrita ao **main** e **mainLoop**
+- Persistência de estado em arquivo (`Inventario.dat`)
+- Auditoria completa de operações em `Auditoria.log`
+- Execução totalmente interativa via terminal
+- Serialização automática usando `deriving (Show, Read)`
+
+Todo o fluxo segue o que foi solicitado no enunciado da Atividade Avaliativa RA2.
 
 ---
 
-### 2. Estrutura do Projeto
+# 2. Estrutura de Dados Conforme Especificação
 
-```plaintext
-/
-├── Inventario.hs        # Código fonte principal
-├── Inventario.dat       # Estado persistido do inventário
-├── Auditoria.log        # Log de auditoria append-only
-└── README.md
+Abaixo estão os tipos de dados definidos no sistema, seguindo a especificação do professor:
+
+```haskell
+-- Item do inventário
+data Item = Item {
+    itemID :: String,
+    nome :: String,
+    quantidade :: Int,
+    categoria :: String
+} deriving (Show, Read)
+
+-- Estrutura principal do inventário
+type Inventario = Map.Map String Item
+
+-- Tipos de ação para auditoria
+data AcaoLog
+  = Add
+  | Remove
+  | Update
+  | QueryFail
+  deriving (Show, Read, Eq)
+
+-- Status das operações
+data StatusLog
+  = Sucesso
+  | Falha String
+  deriving (Show, Read, Eq)
+
+-- Entrada completa do log
+data LogEntry = LogEntry {
+    timestamp :: UTCTime,
+    acao :: AcaoLog,
+    detalhes :: String,
+    status :: StatusLog
+} deriving (Show, Read)
+
+-- Resultado das operações
+type ResultadoOperacao = (Inventario, LogEntry)
 ```
 
 ---
 
-### 3. Tipos de Dados Conforme Especificação
+### 3. Funções de Lógica Pura Implementadas
 
-O sistema define os seguintes tipos:
+#### Operações Principais (puras)
 
-- `Item` (ID, nome, quantidade, categoria)
-- `Inventario = Map String Item`
-- `AcaoLog = AddItem | RemoveItem | UpdateItem | QueryFail`
-- `StatusLog = Sucesso | Falha String`
-- `LogEntry` (timestamp, ação, detalhes, status)
+**addItem**  
+Adiciona um item ao inventário. Valida ID duplicado, quantidade e campos obrigatórios.
 
-Todos derivam `Show` e `Read`, permitindo serialização e desserialização automática para os arquivos de persistência.
+**removeItem**  
+Remove quantidade do item. Remove completamente caso a quantidade chegue a zero.
+
+**updateQty**  
+Atualiza a quantidade do item. Se a nova quantidade for igual a 0, o item é removido.
+
+**validaQuantidade**  
+Valida que as quantidades recebidas sejam positivas.
 
 ---
 
-### 4. Funções de Lógica Pura Implementadas
+#### Funções de Análise e Relatório
 
-#### Operações principais
+**logsDeErro**  
+Filtra apenas as entradas de log cujo status é `Falha`.
 
-- `addItem` – adiciona item ao inventário  
-- `removeItem` – remove quantidade ou exclui item  
-- `updateItem` – atualiza quantidade do item  
-- `validaQuantidade` – valida quantidade positiva  
+**historicoPorItem**  
+Extrai o histórico completo de operações relacionado a um ID específico.
 
-#### Funções de análise e relatório
+**itemMaisMovimentado**  
+Determina qual item teve mais movimentações no sistema (tratando empates).
 
-- `historicoPorItem` – histórico por ID  
-- `logsDeErro` – filtra somente falhas  
-- `itemMaisMovimentado` – identifica itens mais movimentados  
-- `gerarRelatorio` – gera relatório completo  
+**gerarRelatorio**  
+Gera o relatório completo exigido no enunciado, contendo:
+- Total de operações
+- Logs de erro
+- Item mais movimentado
+- Histórico por item
 
-As funções seguem a assinatura:
+---
+
+#### Forma Canônica Exigida
+
+As funções seguem a assinatura funcional:
 
 Either String ResultadoOperacao
 
-onde:
+
+Onde:
 
 type ResultadoOperacao = (Inventario, LogEntry)
 
----
+
 
 
 
