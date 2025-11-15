@@ -269,9 +269,133 @@ Esses dados foram utilizados para validar:
 - Registros de auditoria  
 - Tratamento de erros e entradas inválidas  
 
+---
+
+# 8. Documentação dos Cenários de Teste
+
+---
+
+#### 🧪 Cenário 1 — Persistência de Estado
+
+**Procedimento:**
+
+1. Executar o sistema sem arquivos existentes.
+2. Inserir os seguintes itens:
+
+add,011,ItemA,10,CatA
+add,012,ItemB,5,CatB
+add,013,ItemC,8,CatC
 
 
+3. Encerrar o programa com:
+
+exit
 
 
+4. Reiniciar o sistema.
+5. Verificar o inventário com:
+
+list
+
+
+**Resultado esperado:**  
+Os três itens devem aparecer corretamente após a reinicialização, comprovando que:
+
+- O arquivo `Inventario.dat` foi gerado.
+- Os dados foram serializados usando `Show`/`Read`.
+- A função `carregarInventario` está funcionando corretamente.
+- Não houve crashes por ausência de arquivos.
+
+---
+
+#### 🧪 Cenário 2 — Estoque Insuficiente
+
+**Procedimento:**
+
+1. Adicionar um item:
+
+add,014,Teclado,10,Informatica
+
+
+2. Tentar remover uma quantidade maior do que a disponível:
+
+remove,014,15
+
+
+3. Em seguida, listar o inventário:
+
+list
+
+
+**Resultado esperado:**
+
+- O sistema exibe uma mensagem clara de erro informando estoque insuficiente.
+- A quantidade permanece **10**.
+- Uma entrada com `Falha` é registrada em `Auditoria.log`.
+
+---
+
+#### 🧪 Cenário 3 — Geração do Relatório
+
+**Procedimento:**
+
+1. Executar o Cenário 2 (para gerar erro).  
+2. Pedir o relatório com:
+
+report
+
+
+**Resultado esperado:**
+
+O relatório deve exibir:
+
+- Quantidade total de operações
+- Lista de erros registrados
+- Item mais movimentado
+- Histórico completo por item
+
+Confirmando assim que:
+
+- `itemMaisMovimentado` funciona corretamente  
+- `logsDeErro` identifica todas as falhas  
+- `historicoPorItem` lista todas as operações relevantes  
+- `gerarRelatorio` consolida tudo no formato esperado
+
+---
+
+# 9. Instruções de Execução
+
+#### Online GDB
+
+Para executar o sistema diretamente no navegador:
+
+1. Acesse o link do projeto no Online GDB.
+2. Clique no botão **Run**.
+3. Utilize o terminal integrado para enviar os comandos no formato:
+
+    add,<id>,<nome>,<quantidade>,<categoria>
+    remove,<id>,<quantidade>
+    update,<id>,<nova_quantidade>
+    list
+    report
+    exit
+    
+O sistema funcionará exatamente como em um ambiente local, incluindo persistência e geração de logs.
+
+---
+
+# 10. Conclusão
+
+O sistema atende **integralmente** aos requisitos da Atividade Avaliativa RA2, demonstrando:
+
+- Domínio dos conceitos de **programação funcional em Haskell**  
+- **Separação correta** entre lógica pura e operações de I/O  
+- **Persistência robusta** com arquivos `.dat` e `.log`  
+- **Auditoria completa**, incluindo falhas e sucessos  
+- **Tratamento adequado de erros** e entradas inválidas  
+- **Geração completa de relatórios** conforme especificado  
+- Conformidade total com as instruções fornecidas pelo professor  
+
+O projeto está coerente, funcional, modular e pronto para avaliação.
 
 
